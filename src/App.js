@@ -1,24 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
 
 function App() {
+  const [inputItem, setInputItem] = useState("");
+  const [list, setList] = useState([]);
+  
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="container">
+      <div className="title">What's the plan for today?</div>
+
+      <div className="inputContainer">
+        <input
+          value={inputItem}
+          onChange={(e) => setInputItem(e.target.value)}
+          className="input"
+        />
+        <button
+          className="button"
+          onClick={() => {
+            setInputItem("");
+            setList([...list, inputItem]);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Add
+        </button>
+      </div>
+
+      {list.map((item, index) => {
+        return (
+          <div key={index} className="cardContainer">
+            <div className="cardTitle">{item}</div>
+
+            <button className="buttonX" 
+              onClick={() => {
+                setList([
+                  ...list.slice(0, index),
+                  ...list.slice(index + 1)
+                ]);
+              }}
+            >
+              x
+            </button>
+          </div>
+        );
+      })}
+      <button className="delete"
+        onClick={() => {
+          setInputItem("");
+          setList([]);
+        }}
+      >
+        Delete All
+      </button>
     </div>
+    
   );
 }
 
